@@ -1,45 +1,61 @@
 <template>
-  <div class="layout">
-    <header>
-      <img src="/src/assets/logo.svg" alt="شعار صحة للدواجن" />
-      <nav>
-        <RouterLink to="/">الرئيسية</RouterLink>
-        <RouterLink to="/products">المنتجات</RouterLink>
-        <RouterLink to="/about">عن المزرعة</RouterLink>
-        <RouterLink to="/contact">التواصل</RouterLink>
-        <RouterLink to="/quality">شهادات الجودة</RouterLink>
-        <RouterLink to="/dashboard" class="dashboard">لوحة التحكم</RouterLink>
-      </nav>
-    </header>
-
-    <RouterView />
-
-    <footer>
-      &copy; {{ new Date().getFullYear() }} صحة للدواجن. جميع الحقوق محفوظة.
-    </footer>
+  <div id="main-app">
+    <Header />
+    <main>
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </main>
+    <WhatsAppButton />
+    <Footer />
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import Header from './components/Header.vue';
+import Footer from './components/Footer.vue';
+import WhatsAppButton from './components/WhatsAppButton.vue'; // استيراد المكون
+</script>
 
-<style scoped>
-.layout {
-  font-family: "Tajawal", sans-serif;
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 1rem;
+<style>
+/* ... نفس الأنماط السابقة ... */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap');
+
+:root {
+  --color-primary: #d13d3d;
+  --color-secondary: #565656;
+  --color-text: #333;
+  --color-background: #fdfdfd;
 }
-header {
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.6;
+}
+
+#main-app {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 0;
+  flex-direction: column;
+  min-height: 100vh;
 }
-nav a {
-  margin-left: 1rem;
-  text-decoration: none;
+
+main {
+  flex: 1;
+  /* إزالة الحشو من هنا لإعطاء الصفحات كامل المساحة */
 }
-.dashboard {
-  font-weight: bold;
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

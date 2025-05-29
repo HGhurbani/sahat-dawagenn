@@ -1,42 +1,26 @@
 import { defineStore } from 'pinia';
-import { reactive, watch } from 'vue';
 
-export const useSiteStore = defineStore('site', () => {
-  // حاول استرجاع المحتويات من localStorage أو استخدم قيمًا افتراضية
-  const content = reactive(
-    JSON.parse(localStorage.getItem('siteContent')) || {
-      heroTitle: 'صحة تبدأ من هنا',
-      heroSubtitle: 'التزامنا تقديم بيض صحي طازج يوميًا.',
-      products: [
-        {
-          id: 1,
-          name: 'بيض عضوي',
-          img: '/src/assets/organic.jpg',
-          price: 34,
-          nutrition: 'غني بالأوميغا-3 وخالٍ من المضادات الحيوية'
-        },
-        {
-          id: 2,
-          name: 'بيض مُخصَّب',
-          img: '/src/assets/enriched.jpg',
-          price: 29,
-          nutrition: 'مدعّم بالفيتامين D والبروتينات'
-        }
-      ],
-      farmStory:
-        'منذ عام 2010 نزرع الثقة بتربية دواجن تتغذى على علف طبيعي خالٍ من الكيماويات.',
-      vision:
-        'رؤيتنا هي توفير غذاء آمن وصحي لكل أسرة مع الالتزام بالاستدامة.',
-      certificates: ['ISO 22000', 'حلال', 'Organic EU']
-    }
-  );
+// قم باستيراد الصور في الأعلى باستخدام الاسم المستعار
+import organicImg from '@/assets/organic.jpg';
+import enrichedImg from '@/assets/enriched.jpg';
 
-  // أي تغيير نحفظه في التخزين المحلي
-  watch(
-    () => content,
-    () => localStorage.setItem('siteContent', JSON.stringify(content)),
-    { deep: true }
-  );
-
-  return { content };
+export const useSiteStore = defineStore('site', {
+  state: () => ({
+    products: [
+      {
+        id: 1,
+        nameKey: 'organic_eggs_name',
+        nutritionKey: 'organic_eggs_nutrition',
+        img: organicImg, // استخدم المتغير المستورد هنا
+        price: 34
+      },
+      {
+        id: 2,
+        nameKey: 'enriched_eggs_name',
+        nutritionKey: 'enriched_eggs_nutrition',
+        img: enrichedImg, // استخدم المتغير المستورد هنا
+        price: 29
+      }
+    ]
+  })
 });
